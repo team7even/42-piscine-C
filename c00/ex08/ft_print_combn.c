@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dromo-me <dromo-me@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 01:00:17 by dromo-me          #+#    #+#             */
-/*   Updated: 2025/02/25 01:41:07 by dromo-me         ###   ########.fr       */
+/*   Created: 2025/02/25 23:07:16 by dromo-me          #+#    #+#             */
+/*   Updated: 2025/02/26 01:26:25 by dromo-me         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,77 +17,56 @@ void	ft_putchar(char c)
 	write(1, &c, 1);
 }
 
-int	is_valid_comb(int num, int n)
+void	ft_print_digits(int *digits, int n)
 {
-	int	prev_digit;
-	int	current;
-	int	digits_count;
+	int	i;
 
-	prev_digit = 10;
-	digits_count = 0;
-	while (num > 0)
-	{
-		current = num % 10;
-		if (current >= prev_digit)
-			return (0);
-		prev_digit = current;
-		num /= 10;
-		digits_count++;
-	}
-	return (digits_count == n);
-}
-
-void	print_number(int num, int n)
-{
-	char	buffer[n];
-	int		temp;
-	int		i;
-
-	temp = num;
-	i = n - 1;
-	while (i >= 0)
-	{
-		buffer[i] = (temp % 10) + '0';
-		temp /= 10;
-		i--;
-	}
 	i = 0;
 	while (i < n)
 	{
-		ft_putchar(buffer[i]);
+		ft_putchar(digits[i] + '0');
 		i++;
+	}
+}
+
+void	ft_increment(int *digits, int n)
+{
+	int	i;
+	int	j;
+
+	i = n - 1;
+	while (i >= 0 && digits[i] == 9 - (n - 1 - i))
+		i--;
+	digits[i]++;
+	j = i + 1;
+	while (j < n)
+	{
+		digits[j] = digits[j - 1] + 1;
+		j++;
 	}
 }
 
 void	ft_print_combn(int n)
 {
-	int	num;
-	int	end;
+	int	digits[10];
 	int	i;
 
-	num = 0;
-	end = 1;
-	i = 0;
 	if (n <= 0 || n >= 10)
 		return ;
+	i = 0;
 	while (i < n)
 	{
-		end *= 10;
+		digits[i] = i;
 		i++;
 	}
-	while (num < end)
+	while (digits[0] != 10 - n)
 	{
-		if (is_valid_comb(num, n))
-		{
-			print_number(num, n);
-			if (num != end - 1)
-			{
-				ft_putchar(',');
-				ft_putchar(' ');
-			}
-		}
-		num++;
+		ft_print_digits(digits, n);
+		ft_putchar(',');
+		ft_putchar(' ');
+		ft_increment(digits, n);
 	}
+	ft_print_digits(digits, n);
 	ft_putchar('\n');
 }
 
