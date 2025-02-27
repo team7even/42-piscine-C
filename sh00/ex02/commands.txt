@@ -1,0 +1,32 @@
+# Crea directorio test0 y cambia permisos a rwx--xr-x
+mkdir test0
+chmod 715 test0
+
+# Crea archivo test1 y cambia permisos a rwx--xr--
+touch test1
+# agregamos 4 bytes al archivo
+echo 'data' > test1
+chmod 714 test1
+
+# Crea directorio test2 y cambia permisos a r-x---r--
+mkdir test2
+chmod 504 test2
+
+# Crear el archivo test3 con permisos r-----r--
+touch test3
+# agregamos 1 byte al archivo con una letra
+echo 'a' > test3
+chmod 404 test3
+
+# Crea archivo test4 y cambia permisos a rw-r----x
+touch test4
+# agregamos 2 bytes al archivo con un par de letras
+echo 'ab' > test4
+chmod 641 test4
+
+# Crea archivo test5 con los mismos permisos y contenido que test3
+# y crea un enlace entre ambos (2nda columna marca un 2)
+ln test3 test5
+
+# Crea test6 como un enlace simbólico apuntando a test0
+ln -s test0 test6
